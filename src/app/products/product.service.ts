@@ -1,35 +1,29 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { catchError, Observable, throwError } from 'rxjs';
 import { IProduct } from './product';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+  private productUrl: string = 'assets/api/products/products.json';
+  constructor(private http: HttpClient) { }
+  
+  getProducts(): Observable<IProduct[]>{
+    return this.http.get<IProduct[]>(this.productUrl).pipe(
+      catchError(this.handleError)
+    );
+  }
 
-  constructor() { }
-
-  getProducts(): IProduct[]{
-    return [
-      {
-        "productId": 1,
-        "productName": "Dynafit",
-        "productCode": "GDN-0011",
-        "releaseDate": "March 19, 2021",
-        "description": "DYNAFIT-Trail-Running-Shoe-Ultra-100-W-terrain.",
-        "price": 19.95,
-        "starRating": 3.2,
-        "imageUrl": "assets/images/trailShoes.jpg"
-      },
-      {
-        "productId": 1,
-        "productName": "Dyna",
-        "productCode": "GDN-0011",
-        "releaseDate": "March 19, 2021",
-        "description": "DYNAFIT-Trail-Running-Shoe-Ultra-100-W-terrain.",
-        "price": 19.95,
-        "starRating": 2.7,
-        "imageUrl": "assets/images/trailShoes.jpg"
-      }
-    ];
+  private handleError(err: HttpErrorResponse) {
+    let errorMessage = '';
+    if (err.error instanceof ErrorEvent) {
+      errorMessage = `An error occurred: ${err.error.message}`;
+    } else {
+      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(() => errorMessage);
   }
 }

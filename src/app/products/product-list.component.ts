@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { IProduct } from './product';
 import { ProductService } from './product.service';
 
@@ -21,12 +22,19 @@ export class ProductListComponent implements OnInit, OnDestroy {
   showImage: boolean = false;
   toggleImageTextBtn: string = "Show Image";
   filteredProducts: IProduct[]=[];
+  errorMessage: string = '';
+  sub!: Subscription;
 
   constructor(private productService: ProductService){}
 
   ngOnInit(): void {
-    this.products = this.productService.getProducts();
-    this.filteredProducts = this.products;
+    this.sub = this.productService.getProducts().subscribe({
+      next: products => {
+        this.products = products;
+        this.filteredProducts = this.products;
+      },
+      error: err => this.errorMessage = err
+    });
   }
 
   performFilter(filterBy: string): IProduct[] {
@@ -53,6 +61,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+    this.sub.unsubscribe();
   }
 }
