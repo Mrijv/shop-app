@@ -47,6 +47,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
     }
   }
 
+  onRatingClicked(newRating: IProduct): void{
+    //set rationg to the corresponding IProduct - it can't be setter and getter, more like observable?
+    console.log("Rating click worked!");
+  }
+
   ngOnDestroy(): void {
     throw new Error('Method not implemented.');
   }
