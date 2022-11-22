@@ -22,7 +22,7 @@ export class ProductService {
       },
       {
         "productId": 1,
-        "productName": "Dynafit",
+        "productName": "Dyna",
         "productCode": "GDN-0011",
         "releaseDate": "March 19, 2021",
         "description": "DYNAFIT-Trail-Running-Shoe-Ultra-100-W-terrain.",
