@@ -1,1 +1,10 @@
-<app-product-list></app-product-list>
+<nav class="navbar navbar-expand navbar-light bg-light" style="margin-left: 8px">
+    <a class="navbar-brand">{{pageTitle}}</a>
+    <ul class="nav nav-pills">
+        <li><a class="nav-link" routerLink="/welcome">Home</a></li>
+        <li><a class="nav-link" routerLink="/products">Product List</a></li>
+    </ul>
+</nav>
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
