@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { IProductRating } from '../model/productRating';
 import { IProduct } from './product';
 import { ProductService } from './product.service';
 
@@ -55,9 +56,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
     }
   }
 
-  onRatingClicked(newRating: IProduct): void{
+  onRatingClicked(newRating: IProductRating): void{
     //set rationg to the corresponding IProduct - it can't be setter and getter, more like observable?
-    console.log("Rating click worked!");
+    console.log(`${newRating.rating}`);
   }
 
   ngOnDestroy(): void {
