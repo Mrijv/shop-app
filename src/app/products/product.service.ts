@@ -17,7 +17,12 @@ export class ProductService {
     );
   }
 
-  private handleError(err: HttpErrorResponse) {
+  products3$ = this.http.get<IProduct[]>(this.productUrl)
+  .pipe(
+    catchError(this.handleError)
+  );
+
+  private handleError(err: HttpErrorResponse): Observable<never> {
     let errorMessage = '';
     if (err.error instanceof ErrorEvent) {
       errorMessage = `An error occurred: ${err.error.message}`;

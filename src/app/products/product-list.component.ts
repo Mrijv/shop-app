@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { catchError, EMPTY, Observable, of, Subscription, tap } from 'rxjs';
 import { IProductRating } from '../model/productRating';
 import { IProduct } from './product';
 import { ProductService } from './product.service';
@@ -7,7 +7,8 @@ import { ProductService } from './product.service';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.css']
+  styleUrls: ['./product-list.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductListComponent implements OnInit, OnDestroy {
   private _listFilter: string = '';
@@ -19,11 +20,20 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.filteredProducts = this.performFilter(value);
   }
   pageTitle: string = "Product List";
+
   products: IProduct[] = [];
+  products2$: Observable<IProduct[]> | undefined;
+  products3$ = this.productService.products3$.pipe(
+    tap<IProduct[]>(productss => this.filteredProducts = productss),
+    catchError(err =>{
+      this.errorMessage = err;
+      return EMPTY;
+    })
+  ); //ngOnInit could be deleted when use this option
+
   showImage: boolean = false;
   toggleImageTextBtn: string = "Show Image";
-  filteredProducts: IProduct[]=[];
-  products2$: Observable<IProduct[]> | undefined;
+  filteredProducts: IProduct[]=[];  
   errorMessage: string = '';
   sub!: Subscription;
 
@@ -39,7 +49,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
       error: err => this.errorMessage = err
     });
 
-    this.products2$ = this.productService.getProducts();
+    this.products2$ = this.productService.getProducts()
+    .pipe(
+      tap<IProduct[]>(productss => this.filteredProducts = productss),
+      catchError(err =>{
+        this.errorMessage = err;
+        return EMPTY;
+      })
+    );
   }
 
   performFilter(filterBy: string): IProduct[] {
