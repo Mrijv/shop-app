@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { IProductRating } from '../model/productRating';
 import { IProduct } from './product';
 import { ProductService } from './product.service';
@@ -23,19 +23,23 @@ export class ProductListComponent implements OnInit, OnDestroy {
   showImage: boolean = false;
   toggleImageTextBtn: string = "Show Image";
   filteredProducts: IProduct[]=[];
+  products2$: Observable<IProduct[]> | undefined;
   errorMessage: string = '';
   sub!: Subscription;
 
   constructor(private productService: ProductService){}
 
   ngOnInit(): void {
-    this.sub = this.productService.getProducts().subscribe({
+    this.sub = this.productService.getProducts()
+    .subscribe({
       next: products => {
         this.products = products;
         this.filteredProducts = this.products;
       },
       error: err => this.errorMessage = err
     });
+
+    this.products2$ = this.productService.getProducts();
   }
 
   performFilter(filterBy: string): IProduct[] {

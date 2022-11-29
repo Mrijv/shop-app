@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { IProductRating } from '../model/productRating';
-import { IProduct } from '../products/product';
-
+import { IProductRating } from '../model/productRating'; 
 @Component({
   selector: 'app-star',
   templateUrl: './star.component.html',

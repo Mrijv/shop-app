@@ -15,7 +15,38 @@
             </div>
         </div>
         <div class="table-responsive">
-        <table class="table" *ngIf="products.length">
+        <table class="table" *ngIf="products">
+            <thead>
+                <tr>
+                    <th>
+                        <button class="btn btn-primary" (click)="toggleImage()">
+                            {{toggleImageTextBtn}}
+                        </button>
+                    </th>
+                    <th>Product</th>
+                    <th>Code</th>
+                    <th>Available</th>
+                    <th>Price</th>
+                    <th>5 Star Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of filteredProducts">
+                    <td>
+                        <img class="product" *ngIf="showImage" [src]="product.imageUrl"
+                        [title]="product.productName">
+                    </td>
+                    <td [routerLink]="['/products', product.productId]">{{ product.productName }}</td>
+                    <td>{{ product.productCode | convertToSpaces:'-' }}</td>
+                    <td>{{ product.releaseDate }}</td>
+                    <td>{{ product.price | currency:'USD':'symbol':'1.2-2'}}</td>
+                    <td><app-star [starRating]="{ productId: product.productId, rating: product.starRating }"
+                        (ratingClicked)="onRatingClicked($event)">
+                    </app-star></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table" *ngIf="products2$ | async as products">
             <thead>
                 <tr>
                     <th>
