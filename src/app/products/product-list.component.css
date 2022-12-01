@@ -5,4 +5,10 @@ img.product {
 
 thead {
     color: #339FFF;
-  }
+}
+
+input {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}

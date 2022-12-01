@@ -7,4 +7,9 @@ export interface IProduct {
     description: string;
     starRating: number;
     imageUrl: string;
+    categoryId?: number;
+    category?: string;
+    quantityInStock?: number;
+    searchKey?: string[];
+    supplierIds?: number[];
   }
