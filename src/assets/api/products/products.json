@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "productId": 1,
     "productName": "Leaf Rake",
     "productCode": "GDN-0011",
     "description": "Leaf rake with 48-inch wooden handle",
@@ -12,7 +12,7 @@
     "imageUrl": "assets/images/trailShoes.jpg"
   },
   {
-    "id": 2,
+    "productId": 2,
     "productName": "Garden Cart",
     "productCode": "GDN-0023",
     "description": "15 gallon capacity rolling garden cart",
@@ -24,7 +24,7 @@
     "imageUrl": "assets/images/trailShoes.jpg"
   },
   {
-    "id": 5,
+    "productId": 5,
     "productName": "'Hammer'",
     "productCode": "'TBX-0048'",
     "description": "'Curved claw steel hammer'",
@@ -36,7 +36,7 @@
     "imageUrl": "assets/images/trailShoes.jpg"
   },
   {
-    "id": 8,
+    "productId": 8,
     "productName": "'Saw",
     "productCode": "'TBX-0022'",
     "description": "'15-inch steel blade hand saw'",
@@ -48,7 +48,7 @@
     "imageUrl": "assets/images/trailShoes.jpg"
   },
   {
-    "id": 10,
+    "productId": 10,
     "productName":" 'Video Game Controller'",
     "productCode": "'GMG-0042'",
     "description": "'Standard two-button video game controller'",
@@ -60,7 +60,7 @@
     "imageUrl": "assets/images/trailShoes.jpg"
   },
   {
-    "id": 13,
+    "productId": 13,
     "productName": "'Chatty Cathy (no suppliers)'",
     "productCode": "'GMG-0001'",
     "description": "'Doll from the 1960s'",

@@ -9,7 +9,7 @@
                 <input type="text" [(ngModel)]="listFilter"/>
             </div>
             <div class="col-md-4">
-            <select class="form-control" (change)="onSelected($any($event.target).value)">
+            <select class="form-control" (change)="onSelectedCategory($any($event.target).value)">
                 <option value="0">- Display All -</option>
                 <option *ngFor="let category of categories$ | async"
                     [value]="category.id">{{ category.name }}
@@ -18,105 +18,7 @@
             </div>
         </div>
         <div class="table-responsive">
-        <table class="table" *ngIf="products.length">
-            <thead>
-                <tr>
-                    <th>
-                        <button class="btn btn-primary" (click)="toggleImage()">
-                            {{toggleImageTextBtn}}
-                        </button>
-                    </th>
-                    <th>Product</th>
-                    <th>Code</th>
-                    <th>Available</th>
-                    <th>Price</th>
-                    <th>Category</th>
-                    <th>5 Star Rating</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let product of filteredProducts">
-                    <td>
-                        <img class="product" *ngIf="showImage" [src]="product.imageUrl"
-                        [title]="product.productName">
-                    </td>
-                    <td [routerLink]="['/products', product.productId]">{{ product.productName }}</td>
-                    <td>{{ product.productCode | convertToSpaces:'-' }}</td>
-                    <td>{{ product.releaseDate }}</td>
-                    <td>{{ product.price | currency:'USD':'symbol':'1.2-2'}}</td>
-                    <td>{{ product.categoryId }}</td>
-                    <td><app-star [starRating]="{ productId: product.productId, rating: product.starRating }"
-                        (ratingClicked)="onRatingClicked($event)">
-                    </app-star></td>
-                </tr>
-            </tbody>
-        </table>
-        <table class="table" *ngIf="products2$ | async as products">
-            <thead>
-                <tr>
-                    <th>
-                        <button class="btn btn-primary" (click)="toggleImage()">
-                            {{toggleImageTextBtn}}
-                        </button>
-                    </th>
-                    <th>Product</th>
-                    <th>Code</th>
-                    <th>Available</th>
-                    <th>Price</th>
-                    <th>Category</th>
-                    <th>5 Star Rating</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let product of filteredProducts">
-                    <td>
-                        <img class="product" *ngIf="showImage" [src]="product.imageUrl"
-                        [title]="product.productName">
-                    </td>
-                    <td [routerLink]="['/products', product.productId]">{{ product.productName }}</td>
-                    <td>{{ product.productCode | convertToSpaces:'-' }}</td>
-                    <td>{{ product.releaseDate }}</td>
-                    <td>{{ product.price | currency:'USD':'symbol':'1.2-2'}}</td>
-                    <td>{{ product.categoryId }}</td>
-                    <td><app-star [starRating]="{ productId: product.productId, rating: product.starRating }"
-                        (ratingClicked)="onRatingClicked($event)">
-                    </app-star></td>
-                </tr>
-            </tbody>
-        </table>
-        <table class="table" *ngIf="products3$ | async as products">
-            <thead>
-                <tr>
-                    <th>
-                        <button class="btn btn-primary" (click)="toggleImage()">
-                            {{toggleImageTextBtn}}
-                        </button>
-                    </th>
-                    <th>Product</th>
-                    <th>Code</th>
-                    <th>Available</th>
-                    <th>Price</th>
-                    <th>Category</th>
-                    <th>5 Star Rating</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let product of products">
-                    <td>
-                        <img class="product" *ngIf="showImage" [src]="product.imageUrl"
-                        [title]="product.productName">
-                    </td>
-                    <td [routerLink]="['/products', product.productId]">{{ product.productName }}</td>
-                    <td>{{ product.productCode | convertToSpaces:'-' }}</td>
-                    <td>{{ product.releaseDate }}</td>
-                    <td>{{ product.price | currency:'USD':'symbol':'1.2-2'}}</td>
-                    <td>{{ product.categoryId }}</td>
-                    <td><app-star [starRating]="{ productId: product.productId, rating: product.starRating }"
-                        (ratingClicked)="onRatingClicked($event)">
-                    </app-star></td>
-                </tr>
-            </tbody>
-        </table>
+             
         <table class="table" *ngIf="products4$ | async as products">
             <thead>
                 <tr>
@@ -139,7 +41,7 @@
                         <img class="product" *ngIf="showImage" [src]="product.imageUrl"
                         [title]="product.productName">
                     </td>
-                    <td [routerLink]="['/products', product.productId]">{{ product.productName }}</td>
+                    <td [routerLink]="['/products', product.productId]" (click)="onSelectedProduct(product)">{{ product.productName }}</td>
                     <td>{{ product.productCode | convertToSpaces:'-' }}</td>
                     <td>{{ product.releaseDate }}</td>
                     <td>{{ product.price | currency:'USD':'symbol':'1.2-2'}}</td>
@@ -150,39 +52,7 @@
                 </tr>
             </tbody>
         </table>
-        <table class="table" *ngIf="products5$ | async as products">
-            <thead>
-                <tr>
-                    <th>
-                        <button class="btn btn-primary" (click)="toggleImage()">
-                            {{toggleImageTextBtn}}
-                        </button>
-                    </th>
-                    <th>Product</th>
-                    <th>Code</th>
-                    <th>Available</th>
-                    <th>Price</th>
-                    <th>Category</th>
-                    <th>5 Star Rating</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let product of products">
-                    <td>
-                        <img class="product" *ngIf="showImage" [src]="product.imageUrl"
-                        [title]="product.productName">
-                    </td>
-                    <td [routerLink]="['/products', product.productId]">{{ product.productName }}</td>
-                    <td>{{ product.productCode | convertToSpaces:'-' }}</td>
-                    <td>{{ product.releaseDate }}</td>
-                    <td>{{ product.price | currency:'USD':'symbol':'1.2-2'}}</td>
-                    <td>{{ product.categoryId }}</td>
-                    <td><app-star [starRating]="{ productId: product.productId, rating: product.starRating }"
-                        (ratingClicked)="onRatingClicked($event)">
-                    </app-star></td>
-                </tr>
-            </tbody>
-        </table>
+       
         </div>
     </div>
 </div>

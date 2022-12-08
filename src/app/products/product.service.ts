@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, combineLatest, map, Observable, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, map, Observable, Subject, tap, throwError } from 'rxjs';
 import { CategoryService } from '../Category/category.service';
 import { IProduct } from './product';
 
@@ -34,8 +34,20 @@ export class ProductService {
       category: categories.find(c => product.categoryId === c.id)?.name,
       searchKey: [product.productName]
     } as IProduct))
-  ),
+  )
   );
+
+  private productSelectedSubject = new Subject<IProduct>();
+  //productSelectedAction$ = this.productSelectedSubject.asObservable();
+  
+  get productSelectedAction(): Observable<IProduct>{
+    return this.productSelectedSubject.asObservable();
+  }
+  
+  selectedProductChanged(selectedProduct: IProduct): void {
+    console.log(selectedProduct);
+    this.productSelectedSubject.next(selectedProduct);
+  }
 
   private handleError(err: HttpErrorResponse): Observable<never> {
     let errorMessage = '';
