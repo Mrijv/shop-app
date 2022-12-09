@@ -15,7 +15,7 @@ export class ProductListAltComponent   {
   constructor(private productService: ProductService){}
 
   products$ = this.productService.products4$;
-  selectedProduct$: Observable<IProduct> = this.productService.productSelectedAction;
+  selectedProduct$: Observable<IProduct> = this.productService.productSelectedAction$;
 
   onSelected(product: IProduct): void{
     this.productService.selectedProductChanged(product);

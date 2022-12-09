@@ -48,6 +48,7 @@ export class ProductListComponent {
       return productsToDisplay.filter(product => filterStr ? product.productName.toLocaleLowerCase().includes(filterStr) : true)
     }));
 
+
   categories$ = this.categoryService.categories$.pipe(
     catchError(err => {
       this.errorMessage = err;
@@ -104,19 +105,18 @@ export class ProductListComponent {
   //     );
   // }
 
-
-  // products5$ = combineLatest([
-  //   this.productService.products3$,
-  //   this.categorySelectedAction$
-  // ]).pipe(
-  //   map(([anotherProducts, categoryId]) =>
-  //     anotherProducts.filter(product => categoryId ? product.categoryId === categoryId : true)
-  //   ),
-  //   catchError(err => {
-  //     this.errorMessage = err;
-  //     return EMPTY;
-  //   })
-  // );
+  products5$ = combineLatest([
+    this.products4$,
+    this.categorySelectedAction$
+  ]).pipe(
+    map(([anotherProducts, categoryId]) =>
+      anotherProducts.filter(product => categoryId ? product.categoryId === categoryId : true)
+    ),
+    catchError(err => {
+      this.errorMessage = err;
+      return EMPTY;
+    })
+  );
 
   // performFilter(filterBy: string): IProduct[] {
   //   filterBy = filterBy.toLocaleLowerCase();

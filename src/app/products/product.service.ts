@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, combineLatest, map, Observable, Subject, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, map, Observable, ReplaySubject, shareReplay, Subject, tap, throwError } from 'rxjs';
 import { CategoryService } from '../Category/category.service';
 import { IProduct } from './product';
 
@@ -10,42 +10,42 @@ import { IProduct } from './product';
 export class ProductService {
   private productUrl: string = 'assets/api/products/products.json';
   constructor(private http: HttpClient, private categoryService: CategoryService) { }
-  
-  getProducts(): Observable<IProduct[]>{
+
+  getProducts(): Observable<IProduct[]> {
     return this.http.get<IProduct[]>(this.productUrl)
-    .pipe(
-      catchError(this.handleError)
-    );
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   products3$ = this.http.get<IProduct[]>(this.productUrl)
-  .pipe(
-    catchError(this.handleError)
-  );
+    .pipe(
+      catchError(this.handleError)
+    );
 
   products4$ = combineLatest([
     this.products3$,
     this.categoryService.categories$
   ]).pipe(
     map(([products, categories]) =>
-    products.map(product => ({
-      ...product,
-      price: product.price ? product.price * 1.5 : 0,
-      category: categories.find(c => product.categoryId === c.id)?.name,
-      searchKey: [product.productName]
-    } as IProduct))
-  )
+      products.map(product => ({
+        ...product,
+        price: product.price ? product.price * 1.5 : 0,
+        category: categories.find(c => product.categoryId === c.id)?.name,
+        searchKey: [product.productName]
+      } as IProduct))
+    ),
+    catchError(this.handleError)
   );
 
   private productSelectedSubject = new Subject<IProduct>();
-  //productSelectedAction$ = this.productSelectedSubject.asObservable();
-  
-  get productSelectedAction(): Observable<IProduct>{
-    return this.productSelectedSubject.asObservable();
-  }
-  
+  productSelectedAction$ = this.productSelectedSubject.asObservable()
+    .pipe(
+      shareReplay()
+    );
+
   selectedProductChanged(selectedProduct: IProduct): void {
-    console.log(selectedProduct);
+    console.log("onSelectedProduct");
     this.productSelectedSubject.next(selectedProduct);
   }
 
@@ -59,4 +59,9 @@ export class ProductService {
     console.error(errorMessage);
     return throwError(() => errorMessage);
   }
+
+  // get productSelectedAction(): Observable<IProduct>{
+  //   return this.productSelectedSubject.asObservable();
+  // }
+
 }
